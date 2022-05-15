@@ -25,7 +25,7 @@ public class WithdrawReqController {
     WithdrawRequestRepository withdrawReqRepository;
 
     @RequestMapping(value = "/validateWithdraw", method = RequestMethod.GET)
-    private ResponseEntity<Boolean> checkWithDrawValid(@RequestParam String cardNumber,@RequestParam Double amount) {
+    public ResponseEntity<Boolean> checkWithDrawValid(@RequestParam String cardNumber,@RequestParam Double amount) {
         var withdras=withdrawReqRepository.findByCardNumberAndRequestDate(cardNumber, DateUtils.truncate(new Date(), Calendar.DATE));
         var sum =withdras.stream().mapToDouble(r-> r.getAmount()).sum();
         if (sum + amount.doubleValue()> 2000 || withdras.size()>=5) {
